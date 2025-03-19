@@ -1,6 +1,6 @@
 # screen configurations
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 450
 FPS = 60
 
 # colors (debug)

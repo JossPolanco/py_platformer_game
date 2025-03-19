@@ -1,7 +1,7 @@
 import pygame
 import settings
 from player import Player
-
+from platform import Platform
 class Game:
     def __init__(self):
         # initialice the game
@@ -15,6 +15,7 @@ class Game:
         self.running = True
         
         self.player = Player(150, 150)
+        self.platform = Platform()
         
     def run(self):
         # update method
@@ -28,6 +29,8 @@ class Game:
             # self.draw()
             # draw the player
             self.player.draw(self.screen)
+            
+            self.platform.draw(self.screen)
             
     
     def handle_events(self):
