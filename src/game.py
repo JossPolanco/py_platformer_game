@@ -15,7 +15,7 @@ class Game:
         self.running = True
         
         self.player = Player(150, 150)
-        self.platform = Platform()
+        self.platform = Platform(50, 50, 200, 200)
         
     def run(self):
         # update method
