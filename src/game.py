@@ -26,11 +26,9 @@ class Game:
             self.handle_events()
             # update the screen each frame
             self.update()
-            # self.draw()
-            # draw the player
-            self.player.draw(self.screen)
+            # refresh the screen
+            self.draw()
             
-            self.platform.draw(self.screen)
             
     
     def handle_events(self):
@@ -42,8 +40,15 @@ class Game:
     def update(self):
         # here goes the logic
         pygame.display.update()
+        # calls the input movement of the player
+        self.player.move()
     
     
     def draw(self):
         self.screen.fill(settings.black)
+        # draw the player
+        self.player.draw(self.screen)
+        # draw the platforms
+        self.platform.draw(self.screen)
+        # update the screen
         pygame.display.flip()
