@@ -15,7 +15,7 @@ class Game:
         self.running = True
         
         self.player = Player(150, 150)
-        self.platform = Platform(50, 50, 200, 200)
+        self.platform = Platform(settings.SCREEN_WIDTH, 20, 200, 440)
         
     def run(self):
         # update method
