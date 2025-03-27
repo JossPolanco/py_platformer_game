@@ -17,12 +17,12 @@ class Game:
         
         # Crear plataformas
         self.platforms = [
-            Platform(settings.SCREEN_WIDTH, 20, 200, 440),  # Plataforma principal
-            Platform(100, 20, 50, 300),   # Plataforma flotante 1
-            Platform(100, 20, 350, 200)   # Plataforma flotante 2
+            Platform(settings.SCREEN_WIDTH, 20, 200, 440, settings.red),  # Plataforma principal
+            Platform(100, 20, 50, 300, settings.blue),   # Plataforma flotante 1
+            Platform(100, 20, 650, 400, settings.green)   # Plataforma flotante 2
         ]
-        
-        self.player = Player(150, 150, self.platforms)
+                
+        self.player = Player(150, 170, self.platforms)
         
     def run(self):
         # bucle principal del juego
@@ -51,7 +51,7 @@ class Game:
         # lógica de juego
         pygame.display.update()
         # movimiento del jugador
-        self.player.move(self.platforms)
+        self.player.player_update(current_time)
     
     def draw(self, current_time):
         self.screen.fill(settings.black)
@@ -63,9 +63,3 @@ class Game:
         # actualizar pantalla
         pygame.display.flip()
         
-        # Detectar presión de tecla de salto
-        if pygame.key.get_pressed()[pygame.K_SPACE]:
-            self.player.jump(current_time)
-        
-        # Actualizar estado de salto
-        self.player.update_jump_state(current_time)

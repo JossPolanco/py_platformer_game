@@ -1,112 +1,145 @@
 import pygame
 import settings
+from utils import load_frames, scale_images
 from pygame.locals import *
 
 class Player:
     def __init__(self, x, y, platforms):
-        # Dimensiones del jugador
+        # Player asset        
+        self.animations = []
+        
+        for i in range(5):
+            img = pygame.image.load(f"assets/img/Player/walk/Player_walk ({i}).png")
+            img = scale_images(img, settings.player_width, settings.player_height)        
+            self.animations.append(img)
+        
+        self.anim_index = 0
+        self.asset = self.animations[self.anim_index]
+        self.update_time = pygame.time.get_ticks()
+        self.flip = False
+        
+        
+        # Player dimensions
         self.width = 20
         self.height = 20
         
-        # Encontrar la plataforma más baja para posicionar el jugador
+        # Find the lowest platform to position the player
         lowest_platform = max(platforms, key=lambda p: p.rect.top)
         
-        # Posicionar el jugador justo encima de la plataforma más baja
+        # Position the player just above the lowest platform
         spawn_y = lowest_platform.rect.top - self.height
         
-        # Crear el rectángulo del jugador
+        # Create the player's rectangle
         self.shape = pygame.Rect(x, spawn_y, self.width, self.height)
         
-        # Vectores de posición y movimiento
+        # Position and movement vectors
         self.pos = settings.vec(x, spawn_y)
         self.vel = settings.vec(0, 0)
         
-        # Variables de estado de salto
+        # Jump state variables
         self.on_ground = True
         self.can_jump = True
         self.jump_timer = 0
-        self.JUMP_COOLDOWN = 100  # Milisegundos entre saltos
+        self.JUMP_COOLDOWN = 100  # Milliseconds between jumps
         
-        # Referencia a plataformas
+        # Reference to platforms
         self.platforms = platforms
         
+    def player_update(self, current_time):
+        self.move(self.platforms)
+        self.jump(current_time)
+        
+    def run_animation(self):
+        cooldown_animation = 50  
+
+        if pygame.time.get_ticks() - self.update_time >= cooldown_animation:
+            self.anim_index = self.anim_index + 1
+            self.update_time = pygame.time.get_ticks()
+        if self.anim_index >= len(self.animations):
+            self.anim_index = 0        
+    
     def draw(self, interface):
-        pygame.draw.rect(interface, settings.blue, self.shape)
+        interface.blit(self.asset, self.shape)
+        # pygame.draw.rect(interface, settings.blue, self.shape)
     
     def jump(self, current_time):
-        # Salto solo si está en el suelo y puede saltar
-        if self.on_ground and self.can_jump:
-            self.vel.y = -10  # Velocidad inicial de salto
+        pressed_keys = pygame.key.get_pressed()
+        # Jump only if on the ground and can jump
+        if self.on_ground and self.can_jump and pressed_keys[K_SPACE]:
+            self.vel.y = -10  # Initial jump speed
             self.on_ground = False
             self.can_jump = False
             self.jump_timer = current_time
+            self.update_jump_state(current_time)
     
     def update_jump_state(self, current_time):
-        # Gestionar el cooldown del salto
+        # Manage jump cooldown
         if not self.can_jump:
             if current_time - self.jump_timer >= self.JUMP_COOLDOWN:
                 self.can_jump = True
-    
+
     def move(self, platforms):
-        # Obtener teclas presionadas
+        # Get pressed keys
         pressed_keys = pygame.key.get_pressed()
         
-        # Movimiento horizontal
+        # Horizontal movement
         if pressed_keys[K_a]:
-            self.vel.x = -4  # Movimiento a la izquierda
+            self.vel.x = -4  # Move left
+            self.run_animation()
         elif pressed_keys[K_d]:
-            self.vel.x = 4   # Movimiento a la derecha
+            self.vel.x = 4   # Move right
+            self.run_animation()        
         else:
-            self.vel.x = 0  # Detener movimiento horizontal
+            self.vel.x = 0  # Stop horizontal movement
         
-        # Aplicar gravedad
+        # Apply gravity
         self.vel.y += 0.5
         
-        # Límite de velocidad vertical
+        # Vertical speed limit
         self.vel.y = min(self.vel.y, 10)
         
-        # Actualizar posición
+        # Update position
         new_pos = self.pos + self.vel
         new_rect = pygame.Rect(new_pos.x, new_pos.y, self.width, self.height)
         
-        # Reiniciar estado de suelo
+        # Reset ground state
         ground_collision = False
         
-        # Detección de colisiones con plataformas
+        # Collision detection with platforms
         for platform in platforms:
-            # Verificar colisión
+            # Check collision
             if new_rect.colliderect(platform.rect):
-                # Colisión superior (cayendo)
+                # Top collision (falling)
                 if (self.vel.y > 0 and 
-                    self.shape.bottom <= platform.rect.top + 10 and  # Margen para colisión
+                    self.shape.bottom <= platform.rect.top + 10 and  # Margin for collision
                     new_rect.bottom >= platform.rect.top):
                     new_pos.y = platform.rect.top - self.height
                     self.vel.y = 0
                     ground_collision = True
                 
-                # Colisión lateral izquierda
+                # Left side collision
                 elif self.vel.x > 0 and new_rect.right > platform.rect.left and new_rect.left < platform.rect.left:
                     new_pos.x = platform.rect.left - self.width
                 
-                # Colisión lateral derecha
+                # Right side collision
                 elif self.vel.x < 0 and new_rect.left < platform.rect.right and new_rect.right > platform.rect.right:
                     new_pos.x = platform.rect.right
         
-        # Actualizar estado de suelo
+        # Update ground state
         self.on_ground = ground_collision
         
-        # Si está en el suelo, restablecer el salto
+        # If on the ground, reset jump
         if self.on_ground:
             self.can_jump = True
         
-        # Actualizar posición
+        # Update position
         self.pos = new_pos
         
-        # Actualizar rectángulo
+        # Update rectangle
         self.shape.x = self.pos.x
         self.shape.y = self.pos.y
         
-        # Envolver en pantalla
+        # Wrap around screen
         if self.pos.x > settings.SCREEN_WIDTH:
             self.pos.x = 0
         if self.pos.x < 0:
