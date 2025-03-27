@@ -44,11 +44,18 @@ class Player:
         
         # Reference to platforms
         self.platforms = platforms
-        
+
+    
+    # method that handles all the functionalities 
     def player_update(self, current_time):
-        self.move(self.platforms)
+        self.move()
         self.jump(current_time)
-        
+        self.aply_gravity()
+        self.screen_limits()
+        self.calculate_new_pos()
+        self.handle_collision(self.platforms)        
+
+
     def run_animation(self):
         cooldown_animation = 50  
 
@@ -57,28 +64,15 @@ class Player:
             self.update_time = pygame.time.get_ticks()
         if self.anim_index >= len(self.animations):
             self.anim_index = 0        
+        print(f"index: {self.anim_index} and animation: {self.animations[self.anim_index]}")
+    
     
     def draw(self, interface):
         interface.blit(self.asset, self.shape)
         # pygame.draw.rect(interface, settings.blue, self.shape)
     
-    def jump(self, current_time):
-        pressed_keys = pygame.key.get_pressed()
-        # Jump only if on the ground and can jump
-        if self.on_ground and self.can_jump and pressed_keys[K_SPACE]:
-            self.vel.y = -10  # Initial jump speed
-            self.on_ground = False
-            self.can_jump = False
-            self.jump_timer = current_time
-            self.update_jump_state(current_time)
     
-    def update_jump_state(self, current_time):
-        # Manage jump cooldown
-        if not self.can_jump:
-            if current_time - self.jump_timer >= self.JUMP_COOLDOWN:
-                self.can_jump = True
-
-    def move(self, platforms):
+    def move(self):
         # Get pressed keys
         pressed_keys = pygame.key.get_pressed()
         
@@ -90,16 +84,50 @@ class Player:
             self.vel.x = 4   # Move right
             self.run_animation()        
         else:
-            self.vel.x = 0  # Stop horizontal movement
-        
-        # Apply gravity
+            self.vel.x = 0  # Stop horizontal movement   
+    
+    
+    def jump(self, current_time):
+        pressed_keys = pygame.key.get_pressed()
+        # Jump only if on the ground and can jump
+        if self.on_ground and self.can_jump and pressed_keys[K_SPACE]:
+            self.vel.y = -10  # Initial jump speed
+            self.on_ground = False
+            self.can_jump = False
+            self.jump_timer = current_time
+            self.update_jump_state(current_time)
+
+    
+    def update_jump_state(self, current_time):
+        # Manage jump cooldown
+        if not self.can_jump:
+            if current_time - self.jump_timer >= self.JUMP_COOLDOWN:
+                self.can_jump = True    
+
+    
+    def aply_gravity(self):
+        # apply the gravity
         self.vel.y += 0.5
-        
-        # Vertical speed limit
+        # speed limit
         self.vel.y = min(self.vel.y, 10)
-        
-        # Update position
-        new_pos = self.pos + self.vel
+
+
+    def screen_limits(self):
+        # Wrap around screen
+        if self.pos.x > settings.SCREEN_WIDTH:
+            self.pos.x = 0
+        if self.pos.x < 0:
+            self.pos.x = settings.SCREEN_WIDTH
+
+    
+    def calculate_new_pos(self):
+        # calculates the new position
+        return  self.pos + self.vel
+
+    
+    def handle_collision(self, platforms):
+        # get new position
+        new_pos = self.calculate_new_pos()
         new_rect = pygame.Rect(new_pos.x, new_pos.y, self.width, self.height)
         
         # Reset ground state
@@ -138,9 +166,3 @@ class Player:
         # Update rectangle
         self.shape.x = self.pos.x
         self.shape.y = self.pos.y
-        
-        # Wrap around screen
-        if self.pos.x > settings.SCREEN_WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
-            self.pos.x = settings.SCREEN_WIDTH
