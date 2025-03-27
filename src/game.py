@@ -1,45 +1,45 @@
 import pygame
 import settings
-from player import Player
-from platform import Platform
+from Player import Player
+from Platform import Platform
 
 class Game:
     def __init__(self):
-        # inicializar el juego
+        # initialize the game
         pygame.init()
-        # configurar dimensiones de la ventana
+        # set window dimensions
         self.screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
-        # configurar título
+        # set title
         pygame.display.set_caption(settings.TITLE)
-        # configurar reloj
+        # set clock
         self.clock = pygame.time.Clock()
         self.running = True
         
-        # Crear plataformas
+        # Create platforms
         self.platforms = [
-            Platform(settings.SCREEN_WIDTH, 20, 200, 440, settings.red),  # Plataforma principal
-            Platform(100, 20, 50, 300, settings.blue),   # Plataforma flotante 1
-            Platform(100, 20, 650, 400, settings.green)   # Plataforma flotante 2
+            Platform(settings.SCREEN_WIDTH, 20, 200, 440, settings.red),  # Main platform
+            Platform(100, 20, 50, 300, settings.blue),   # Floating platform 1
+            Platform(100, 20, 650, 400, settings.green)   # Floating platform 2
         ]
                 
         self.player = Player(150, 170, self.platforms)
         
     def run(self):
-        # bucle principal del juego
+        # main game loop
         while self.running:
-            # controlar velocidad de fotogramas
+            # control frame rate
             self.clock.tick(settings.FPS)
             
-            # obtener tiempo actual
+            # get current time
             current_time = pygame.time.get_ticks()
             
-            # manejar eventos
+            # handle events
             self.handle_events()
             
-            # actualizar
+            # update
             self.update(current_time)
             
-            # dibujar
+            # draw
             self.draw(current_time)
     
     def handle_events(self):
@@ -48,18 +48,17 @@ class Game:
                 self.running = False
     
     def update(self, current_time):
-        # lógica de juego
+        # game logic
         pygame.display.update()
-        # movimiento del jugador
+        # player movement
         self.player.player_update(current_time)
     
     def draw(self, current_time):
         self.screen.fill(settings.black)
-        # dibujar jugador
+        # draw player
         self.player.draw(self.screen)
-        # dibujar plataformas
+        # draw platforms
         for platform in self.platforms:
             platform.draw(self.screen)
-        # actualizar pantalla
+        # update screen
         pygame.display.flip()
-        
