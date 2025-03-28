@@ -4,13 +4,14 @@ from utils import load_frames, scale_images
 from pygame.locals import *
 
 class Player:
-    def __init__(self, x, y, platforms):
+    def __init__(self, x, y, platforms, type):
         # Player asset        
         self.animations = []
         self.jump_animation = []
         
         # others
         self.score = 0
+        self.type = type
         
         for i in range(5):
             img = pygame.image.load(f"assets/img/Player/walk/Player_walk ({i}).png")
@@ -96,6 +97,8 @@ class Player:
         # Get pressed keys
         pressed_keys = pygame.key.get_pressed()
         
+        self.screen_position = [0,0]
+        
         # Horizontal movement
         if pressed_keys[K_a]:
             self.vel.x = -4  # Move left
@@ -110,6 +113,20 @@ class Player:
             self.asset = pygame.transform.flip(self.animations[0], self.flip, False)     
         if pressed_keys[K_r]:
             self.pos = settings.vec(40, 400)
+        
+        if self.shape.bottom > (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT):
+            self.screen_position[1] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.bottom
+            self.shape.bottom = settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT
+        if self.shape.top > (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT):
+            self.screen_position[1] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.top
+            self.shape.top = settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT
+        if self.shape.right > (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT):
+            self.screen_position[0] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.right
+            self.shape.right = settings.SCREEN_WIDTH - settings.SCREEN_LIMIT
+        if self.shape.left > (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT):
+            self.screen_position[0] = (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT) - self.shape.left
+            self.shape.left = settings.SCREEN_WIDTH - settings.SCREEN_LIMIT
+        return self.screen_position
     
     
     def jump(self, current_time):
