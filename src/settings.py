@@ -1,7 +1,9 @@
 import pygame
+
+pygame.init()
 # screen configurations
-SCREEN_WIDTH = 1295
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 800 #1925
+SCREEN_HEIGHT = 600 #720
 FPS = 60
 
 # colors (debug)
@@ -24,6 +26,9 @@ player_height = 2
 platform_width = 4
 platform_height = 4
 
+coin_width = 2
+coin_height = 2
+
 # TEXTURES
 # platforms
 Box_center_platform = "assets/img/Platforms/Box_center_platform.png"
@@ -41,5 +46,8 @@ Line_middle_platform = "assets/img/Platforms/Line_middle_platform.png"
 # objects
 goald = "assets/img/Objects/Goald.png"
 spike = "assets/img/Objects/Spike.png"
+
+
 # extra
 TITLE = "MegaGame"
+font_blocky = pygame.font.Font("assets/fonts/Blocky5x7.ttf", 24)
