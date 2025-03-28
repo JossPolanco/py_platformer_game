@@ -23,7 +23,13 @@ class Game:
             Platform(64, 64, 35, 550, settings.Line_middle_platform, settings.platform_width, settings.platform_height),             
             Platform(128, 64, 230, 550, settings.Line_middle_platform, 8, settings.platform_height),
             Platform(64, 64, 450, 520, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
-            Platform(128, 64, 680, 480, settings.Line_middle_platform, 8, settings.platform_height)
+            Platform(128, 64, 680, 480, settings.Line_middle_platform, 8, settings.platform_height),
+            Platform(32, 32, 750, 370, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 600, 300, settings.Line_middle_platform, 2, 2),            
+            Platform(64, 64, 450, 250, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(32, 32, 320, 200, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 230, 120, settings.Line_middle_platform, 2, 2),
+            Platform(64, 64, 400, 120, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
         ]
         
         self.coins = [

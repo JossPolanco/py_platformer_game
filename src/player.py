@@ -156,11 +156,10 @@ class Player:
 
 
     def screen_limits(self):
-        # Wrap around screen
-        if self.pos.x > settings.SCREEN_WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
-            self.pos.x = settings.SCREEN_WIDTH
+        # Wrap around screen       
+        if self.pos.y > settings.SCREEN_HEIGHT:
+            self.pos.y = 0
+            self.pos.x = 25
 
     
     def calculate_new_pos(self):
