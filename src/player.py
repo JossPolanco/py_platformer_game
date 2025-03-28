@@ -105,7 +105,9 @@ class Player:
         else:
             self.vel.x = 0  # Stop horizontal movement   
             self.asset = pygame.transform.flip(self.animations[0], self.flip, False)     
-    
+        
+        if pressed_keys[K_r]:
+            self.pos = settings.vec(25, 500)
     
     def jump(self, current_time):
         pressed_keys = pygame.key.get_pressed()
