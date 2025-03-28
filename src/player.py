@@ -9,6 +9,9 @@ class Player:
         self.animations = []
         self.jump_animation = []
         
+        # others
+        self.score = 0
+        
         for i in range(5):
             img = pygame.image.load(f"assets/img/Player/walk/Player_walk ({i}).png")
             img = scale_images(img, settings.player_width, settings.player_height)        
@@ -105,9 +108,9 @@ class Player:
         else:
             self.vel.x = 0  # Stop horizontal movement   
             self.asset = pygame.transform.flip(self.animations[0], self.flip, False)     
-        
         if pressed_keys[K_r]:
-            self.pos = settings.vec(25, 500)
+            self.pos = settings.vec(40, 400)
+    
     
     def jump(self, current_time):
         pressed_keys = pygame.key.get_pressed()
