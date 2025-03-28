@@ -17,12 +17,11 @@ class Game:
         
         # Create platforms
         self.platforms = [
-            Platform(settings.SCREEN_WIDTH, 20, 200, 440, settings.red),  # Main platform
-            Platform(100, 20, 50, 300, settings.blue),   # Floating platform 1
-            Platform(100, 20, 650, 400, settings.green)   # Floating platform 2
+            Platform(64, 64, 35, 688, settings.Line_middle_platform),             
+            Platform(64, 64, 230, 688, settings.Line_middle_platform)
         ]
-                
-        self.player = Player(150, 170, self.platforms)
+
+        self.player = Player(25, 170, self.platforms)
         
     def run(self):
         # main game loop
@@ -60,5 +59,6 @@ class Game:
         # draw platforms
         for platform in self.platforms:
             platform.draw(self.screen)
+            # platform.draw_hitbox(self.screen)
         # update screen
         pygame.display.flip()
