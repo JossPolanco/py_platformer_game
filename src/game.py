@@ -17,8 +17,10 @@ class Game:
         
         # Create platforms
         self.platforms = [
-            Platform(64, 64, 35, 688, settings.Line_middle_platform),             
-            Platform(64, 64, 230, 688, settings.Line_middle_platform)
+            Platform(64, 64, 35, 688, settings.Line_middle_platform, settings.platform_width, settings.platform_height),             
+            Platform(128, 64, 230, 688, settings.Line_middle_platform, 8, settings.platform_height),
+            Platform(64, 64, 400, 620, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(128, 64, 580, 580, settings.Line_middle_platform, 8, settings.platform_height)
         ]
 
         self.player = Player(25, 170, self.platforms)
@@ -59,6 +61,6 @@ class Game:
         # draw platforms
         for platform in self.platforms:
             platform.draw(self.screen)
-            # platform.draw_hitbox(self.screen)
+            platform.draw_hitbox(self.screen)
         # update screen
         pygame.display.flip()

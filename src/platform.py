@@ -5,12 +5,12 @@ from pygame.locals import *
 
 
 class Platform:
-    def __init__(self, width, height, x, y, texture):
+    def __init__(self, width, height, x, y, texture, texture_width, texture_height):
         # Create platform surface and rectangle
         self.width = width
         self.height = height
         self.texture = pygame.image.load(texture)
-        self.texture = scale_images(self.texture, settings.platform_width, settings.platform_height)  
+        self.texture = scale_images(self.texture, texture_width, texture_height)  
         
         # Create platform rectangle with correct positioning
         self.rect = pygame.Rect(x - width//2, y - height//2, width, height)
