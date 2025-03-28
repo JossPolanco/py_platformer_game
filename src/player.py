@@ -7,12 +7,18 @@ class Player:
     def __init__(self, x, y, platforms):
         # Player asset        
         self.animations = []
+        self.jump_animation = []
         
         for i in range(5):
             img = pygame.image.load(f"assets/img/Player/walk/Player_walk ({i}).png")
             img = scale_images(img, settings.player_width, settings.player_height)        
             self.animations.append(img)
         
+        for i in range(2):
+            img = pygame.image.load(f"assets/img/Player/jump/Player_jump ({i}).png")
+            img = scale_images(img, settings.player_width, settings.player_height)        
+            self.jump_animation.append(img)
+            
         self.anim_index = 0
         self.asset = self.animations[self.anim_index]
         self.update_time = pygame.time.get_ticks()
@@ -20,8 +26,8 @@ class Player:
         
         
         # Player dimensions
-        self.width = 20
-        self.height = 20
+        self.width = 32
+        self.height = 32
         
         # Find the lowest platform to position the player
         lowest_platform = max(platforms, key=lambda p: p.rect.top)
@@ -56,17 +62,28 @@ class Player:
         self.handle_collision(self.platforms)        
 
 
-    def run_animation(self):
-        cooldown_animation = 50  
-
+    def active_run_animation(self):
+        cooldown_animation = 50          
+        
         if pygame.time.get_ticks() - self.update_time >= cooldown_animation:
             self.anim_index = self.anim_index + 1
             self.update_time = pygame.time.get_ticks()
         if self.anim_index >= len(self.animations):
             self.anim_index = 0        
-        print(f"index: {self.anim_index} and animation: {self.animations[self.anim_index]}")
+        self.asset = pygame.transform.flip(self.animations[self.anim_index], self.flip, False)        
     
     
+    def active_jump_animation(self):
+        cooldown_animation = 50          
+        
+        if pygame.time.get_ticks() - self.update_time >= cooldown_animation:
+            self.anim_index = self.anim_index + 1
+            self.update_time = pygame.time.get_ticks()
+        if self.anim_index >= len(self.jump_animation):
+            self.anim_index = 0        
+        self.asset = pygame.transform.flip(self.jump_animation[self.anim_index], self.flip, False)   
+
+
     def draw(self, interface):
         interface.blit(self.asset, self.shape)
         # pygame.draw.rect(interface, settings.blue, self.shape)
@@ -79,12 +96,15 @@ class Player:
         # Horizontal movement
         if pressed_keys[K_a]:
             self.vel.x = -4  # Move left
-            self.run_animation()
+            self.flip = True
+            self.active_run_animation()
         elif pressed_keys[K_d]:
             self.vel.x = 4   # Move right
-            self.run_animation()        
+            self.flip = False
+            self.active_run_animation()        
         else:
             self.vel.x = 0  # Stop horizontal movement   
+            self.asset = pygame.transform.flip(self.animations[0], self.flip, False)     
     
     
     def jump(self, current_time):
@@ -96,6 +116,7 @@ class Player:
             self.can_jump = False
             self.jump_timer = current_time
             self.update_jump_state(current_time)
+            self.active_jump_animation()
 
     
     def update_jump_state(self, current_time):
