@@ -10,6 +10,8 @@ class Game:
         pygame.init()
         # set window dimensions
         self.screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        # 
+        self.screen_position = [0,0]
         # set title
         pygame.display.set_caption(settings.TITLE)
         # set clock
@@ -29,7 +31,7 @@ class Game:
             Coin(400, 400, "silver")
         ]
 
-        self.player = Player(25, 170, self.platforms)
+        self.player = Player(25, 170, self.platforms, 1)
         
     def run(self):
         # main game loop
@@ -59,6 +61,8 @@ class Game:
         pygame.display.update()
         # player movement
         self.player.player_update(current_time)
+        
+        self.screen_position = self.player.move()
         
         for coin in self.coins:
             coin.coin_update(self.player)

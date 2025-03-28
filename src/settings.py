@@ -4,6 +4,7 @@ pygame.init()
 # screen configurations
 SCREEN_WIDTH = 800 #1925
 SCREEN_HEIGHT = 600 #720
+SCREEN_LIMIT = 1
 FPS = 60
 
 # colors (debug)
