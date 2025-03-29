@@ -45,8 +45,8 @@ Line_corner_left_platform = "assets/img/Platforms/Line_corner_left_platform.png"
 Line_corner_right_platform = "assets/img/Platforms/Line_corner_right_platform.png"
 Line_middle_platform = "assets/img/Platforms/Line_middle_platform.png"
 # objects
-goald = "assets/img/Objects/Goald.png"
-spike = "assets/img/Objects/Spike.png"
+checkpoint_texture = "assets/img/Objects/Checkpoint.png"
+spike_texture = "assets/img/Objects/Spike.png"
 
 
 # extra
