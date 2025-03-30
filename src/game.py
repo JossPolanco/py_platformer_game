@@ -26,8 +26,8 @@ class Game:
         self.running = True
         
         # other
-        self.x_checkpoint = 0
-        self.y_checkpoint = 170
+        self.x_checkpoint = 20
+        self.y_checkpoint = -100
         
         # Create platforms
         self.platforms = [
@@ -41,23 +41,97 @@ class Game:
             Platform(32, 32, 320, 200, settings.Line_middle_platform, 2, 2),
             Platform(32, 32, 230, 120, settings.Line_middle_platform, 2, 2),
             Platform(64, 64, 400, 80, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
-            Platform(64, 64, 400, -20, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
-            Platform(64, 64, 400, -1000, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(64, 64, 400, -30, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(64, 64, 250, -100, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(32, 32, 140, -180, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 50, -220, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 140, -300, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 300, -340, settings.Line_middle_platform, 2, 2),
+            Platform(48, 48, 400, -270, settings.Line_middle_platform, 3, 3),
+            Platform(32, 32, 580, -300, settings.Line_middle_platform, 2, 2),
+            Platform(48, 48, 750, -350, settings.Line_middle_platform, 3, 3),
+            Platform(32, 32, 600, -440, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 450, -500, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 250, -480, settings.Line_middle_platform, 2, 2),
+            Platform(48, 48, 150, -500, settings.Line_middle_platform, 3, 3),
+            Platform(32, 32, 160, -610, settings.Line_middle_platform, 2, 2),
+            Platform(48, 48, 50, -680, settings.Line_middle_platform, 3, 3),
+            Platform(48, 48, 150, -780, settings.Line_middle_platform, 3, 3),
+            Platform(32, 32, 300, -720, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 500, -720, settings.Line_middle_platform, 2, 2),
+            Platform(48, 48, 600, -780, settings.Line_middle_platform, 3, 3),
+            Platform(32, 32, 750, -850, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 620, -930, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 500, -900, settings.Line_middle_platform, 2, 2),
+            Platform(64, 64, 400, -980, settings.Line_middle_platform, settings.platform_width, settings.platform_height),
+            Platform(32, 32, 250, -980, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 55, -1000, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 75, -1100, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 250, -1150, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 400, -1160, settings.Line_middle_platform, 2, 2),
+            Platform(32, 32, 400, -1250, settings.Line_middle_platform, 2, 2),
         ]
         
         self.coins = [
-            Coin(230, 450, "gold"),
-            Coin(400, 400, "silver")
+            Coin(200, 500, "bronze"),
+            Coin(450, 470, "silver"),
+            Coin(640, 430, "bronze"),
+            Coin(680, 430, "bronze"),
+            Coin(720, 430, "bronze"),
+            Coin(750, 340, "bronze"),
+            Coin(600, 270, "bronze"),
+            Coin(450, 200, "silver"),
+            Coin(320, 170, "bronze"),
+            Coin(230, 80, "bronze"),
+            Coin(400, 30, "gold"),
+            Coin(400, -180, "silver"),
+            Coin(140, -220, "bronze"),
+            Coin(50, -260, "bronze"),
+            Coin(140, -340, "silver"),
+            Coin(300, -380, "bronze"),
+            Coin(405, -320, "bronze"),
+            Coin(580, -340, "bronze"),
+            Coin(750, -400, "bronze"),
+            Coin(600, -480, "bronze"),
+            Coin(200, -300, "gold"),
+            Coin(450, -540, "bronze"),
+            Coin(250, -520, "silver"),
+            Coin(160, -545, "gold"),
+            Coin(20, -820, "silver"),
+            Coin(300, -760, "bronze"),
+            Coin(200, -780, "gold"),
+            Coin(500, -760, "bronze"),
+            Coin(610, -830, "bronze"),
+            Coin(750, -890, "bronze"),
+            Coin(620, -970, "bronze"),
+            Coin(500, -940, "bronze"),
+            Coin(450, -900, "gold"),
+            Coin(400, -1040, "silver"),
+            Coin(55, -1040, "bronze"),
+            Coin(75, -1140, "bronze"),
+            Coin(250, -1180, "silver"),
+            Coin(400, -1200, "gold"),
         ]
         
         self.spikes = [
-            Spike(150, 150)
+            Spike(235, -135, 2, 2, 0),
+            Spike(140, -280, 2, 2, 180),
+            Spike(278, -340, 2, 1, 90),
+            Spike(385, -300, 1, 2, 0),
+            Spike(135, -530, 1, 2, 0),
+            Spike(35, -710, 1, 2, 0),
+            Spike(165, -810, 1, 2, 0),
+            Spike(280, -720, 1.5, 1, 90),
+            Spike(585, -810, 1, 2, 0),
+            Spike(435, -980, 1, 2, 270),
+            Spike(258, -998, 1, 1, 0),  
         ]
         
         self.checkpoints = [
-            Checkpoint(200, 500),
-            Checkpoint(400, -70),
-            Checkpoint(300, -150)            
+            Checkpoint(250, 1500),
+            Checkpoint(400, -80),
+            Checkpoint(160, -640),
+            Checkpoint(400, -1282)            
         ]
         
         
@@ -67,7 +141,7 @@ class Game:
             level_count += 1    
 
         # creates the player
-        self.player = Player(0, 170, self.platforms, 1)
+        self.player = Player(20, 450, self.platforms, 1)
 
     def run(self):
         # main game loop
@@ -95,8 +169,7 @@ class Game:
     def update(self, current_time):
         # game logic
         pygame.display.update()
-        # player movement
-        self.player.player_update(current_time, self.x_checkpoint, self.y_checkpoint)
+        
         
         # self.screen_position = self.player.move()
         
@@ -120,7 +193,7 @@ class Game:
                 self.level = checkpoint.getLevel()
                 
                 self.x_checkpoint = checkpoint.rect.x
-                self.y_checkpoint = checkpoint.rect.y - 30
+                self.y_checkpoint = checkpoint.rect.y
                 
                 print(f"pos x check: {self.x_checkpoint}")
                 print(f"pos y check: {self.y_checkpoint}")
@@ -141,7 +214,10 @@ class Game:
             for spike in self.spikes:
                 spike.rect.y += displacement
             for checkpoint in self.checkpoints:
-                checkpoint.rect.y += displacement             
+                checkpoint.rect.y += displacement       
+        
+        # player movement
+        self.player.player_update(current_time, self.x_checkpoint, self.y_checkpoint)      
     
     def draw(self):
         self.screen.fill(settings.black)
@@ -156,6 +232,7 @@ class Game:
         # draw spikes
         for spike in self.spikes:
             spike.draw(self.screen)
+            spike.draw_hitbox(self.screen)
         # draw checkpoints
         for checkpoint in self.checkpoints:
             checkpoint.draw(self.screen)

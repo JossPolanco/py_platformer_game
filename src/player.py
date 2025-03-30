@@ -44,10 +44,10 @@ class Player:
         spawn_y = lowest_platform.rect.top - self.height
         
         # Create the player's rectangle
-        self.shape = pygame.Rect(x, spawn_y, self.width, self.height)
+        self.shape = pygame.Rect(x, y, self.width, self.height)
         
         # Position and movement vectors
-        self.pos = settings.vec(x, spawn_y)
+        self.pos = settings.vec(x, y)
         self.vel = settings.vec(0, 0)
         
         # Jump state variables
@@ -150,7 +150,8 @@ class Player:
         # Wrap around screen       
         if self.pos.y > settings.SCREEN_HEIGHT:
             self.pos.x = x_checkpoint
-            self.pos.y = y_checkpoint
+            self.pos.y = y_checkpoint + 540
+            print(f"position out screen: {self.pos}")
             self.attemps += 1
 
     
@@ -202,4 +203,6 @@ class Player:
         self.shape.y = self.pos.y
         
     def respawn(self, x_checkpoint, y_checkpoint):
-        self.pos = settings.vec(x_checkpoint, y_checkpoint)
+        self.pos = settings.vec(x_checkpoint, y_checkpoint + 540)
+        # self.shape.center = (x_checkpoint, y_checkpoint)
+        print(f"position respawn: {self.pos}")
