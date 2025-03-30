@@ -1,10 +1,28 @@
 import pygame 
 import settings
+from utils import scale_images
+from pygame.locals import *
+
+
 class Platform:
-    def __init__(self, width, height, x, y):
-        self.surf = pygame.Surface((width, height))
-        self.surf.fill(settings.red)
-        self.rect = self.surf.get_rect(center = (x, y))
+    def __init__(self, width, height, x, y, texture, texture_width, texture_height):
+        # Create platform surface and rectangle
+        self.width = width
+        self.height = height
+        self.texture = pygame.image.load(texture)
+        self.texture = scale_images(self.texture, texture_width, texture_height)  
+        
+        # Create platform rectangle with correct positioning
+        self.rect = pygame.Rect(x - width//2, y - height//2, width, height)
     
     def draw(self, interface):
-        pygame.draw.rect(interface, settings.red, self.rect)
+        # Draw platform
+        interface.blit(self.texture, self.rect)
+    
+    def get_top(self):
+        # Return the top position of the platform
+        return self.rect.top
+    
+    def draw_hitbox(self, interface):
+        # Draw the hitbox of the platform in red
+        pygame.draw.rect(interface, settings.blue, self.rect, 2)
