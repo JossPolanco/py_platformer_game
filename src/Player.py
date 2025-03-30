@@ -69,7 +69,9 @@ class Player:
         self.aply_gravity()
         self.screen_limits(self.x_checkpoint, self.y_checkpoint)
         self.calculate_new_pos()
-        self.handle_collision(self.platforms)        
+        self.handle_collision(self.platforms)
+        if self.score < 0:
+            self.score = 0  
         
 
     def active_run_animation(self):
@@ -151,6 +153,10 @@ class Player:
         if self.pos.y > settings.SCREEN_HEIGHT:
             self.pos.x = x_checkpoint
             self.pos.y = y_checkpoint + 540
+            if self.score > 0:
+                self.score = self.score - 5
+            elif self.score <=0:                          
+                self.score = 0
             print(f"position out screen: {self.pos}")
             self.attemps += 1
 
