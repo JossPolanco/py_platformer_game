@@ -27,8 +27,11 @@ class Spike:
     
     # checks the collitions with the player
     def collision_handle(self, player, x_checkpoint, y_checkpoint):
-        if self.rect.colliderect(player.shape):            
-            player.score = 0
+        if self.rect.colliderect(player.shape): 
+            if player.score > 0:
+                player.score = player.score - 5 
+            elif player.score <=0:                        
+                player.score = 0 
             player.attemps += 1
             player.respawn(x_checkpoint, y_checkpoint)
     
