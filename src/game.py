@@ -224,7 +224,7 @@ class Game:
         # draw platforms
         for platform in self.platforms:
             platform.draw(self.screen)
-            platform.draw_hitbox(self.screen)
+            # platform.draw_hitbox(self.screen)
         # draw coins
         for coin in self.coins:
             coin.draw(self.screen)
@@ -232,7 +232,7 @@ class Game:
         # draw spikes
         for spike in self.spikes:
             spike.draw(self.screen)
-            spike.draw_hitbox(self.screen)
+            # spike.draw_hitbox(self.screen)
         # draw checkpoints
         for checkpoint in self.checkpoints:
             checkpoint.draw(self.screen)
