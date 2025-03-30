@@ -11,7 +11,11 @@ class Player:
         
         # others
         self.score = 0
+        self.attemps = 0
         self.type = type
+        self.x_checkpoint = 0
+        self.y_checkpoint = 170
+        self.wasKill = False
         
         for i in range(5):
             img = pygame.image.load(f"assets/img/Player/walk/Player_walk ({i}).png")
@@ -40,10 +44,10 @@ class Player:
         spawn_y = lowest_platform.rect.top - self.height
         
         # Create the player's rectangle
-        self.shape = pygame.Rect(x, spawn_y, self.width, self.height)
+        self.shape = pygame.Rect(x, y, self.width, self.height)
         
         # Position and movement vectors
-        self.pos = settings.vec(x, spawn_y)
+        self.pos = settings.vec(x, y)
         self.vel = settings.vec(0, 0)
         
         # Jump state variables
@@ -57,14 +61,16 @@ class Player:
 
     
     # method that handles all the functionalities 
-    def player_update(self, current_time):
+    def player_update(self, current_time, x_checkpoint, y_checkpoint):
+        self.x_checkpoint = x_checkpoint
+        self.y_checkpoint = y_checkpoint
         self.move()
         self.jump(current_time)
         self.aply_gravity()
-        self.screen_limits()
+        self.screen_limits(self.x_checkpoint, self.y_checkpoint)
         self.calculate_new_pos()
         self.handle_collision(self.platforms)        
-
+        
 
     def active_run_animation(self):
         cooldown_animation = 50          
@@ -89,8 +95,7 @@ class Player:
 
 
     def draw(self, interface):
-        interface.blit(self.asset, self.shape)
-        # pygame.draw.rect(interface, settings.blue, self.shape)
+        interface.blit(self.asset, self.shape)        
     
     
     def move(self):
@@ -112,21 +117,7 @@ class Player:
             self.vel.x = 0  # Stop horizontal movement   
             self.asset = pygame.transform.flip(self.animations[0], self.flip, False)     
         if pressed_keys[K_r]:
-            self.pos = settings.vec(40, 400)
-        
-        if self.shape.bottom > (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT):
-            self.screen_position[1] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.bottom
-            self.shape.bottom = settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT
-        if self.shape.top > (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT):
-            self.screen_position[1] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.top
-            self.shape.top = settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT
-        if self.shape.right > (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT):
-            self.screen_position[0] = (settings.SCREEN_HEIGHT - settings.SCREEN_LIMIT) - self.shape.right
-            self.shape.right = settings.SCREEN_WIDTH - settings.SCREEN_LIMIT
-        if self.shape.left > (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT):
-            self.screen_position[0] = (settings.SCREEN_WIDTH - settings.SCREEN_LIMIT) - self.shape.left
-            self.shape.left = settings.SCREEN_WIDTH - settings.SCREEN_LIMIT
-        return self.screen_position
+            self.pos = settings.vec(self.x_checkpoint, self.y_checkpoint)
     
     
     def jump(self, current_time):
@@ -155,12 +146,13 @@ class Player:
         self.vel.y = min(self.vel.y, 10)
 
 
-    def screen_limits(self):
-        # Wrap around screen
-        if self.pos.x > settings.SCREEN_WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
-            self.pos.x = settings.SCREEN_WIDTH
+    def screen_limits(self, x_checkpoint, y_checkpoint):
+        # Wrap around screen       
+        if self.pos.y > settings.SCREEN_HEIGHT:
+            self.pos.x = x_checkpoint
+            self.pos.y = y_checkpoint + 540
+            print(f"position out screen: {self.pos}")
+            self.attemps += 1
 
     
     def calculate_new_pos(self):
@@ -209,3 +201,8 @@ class Player:
         # Update rectangle
         self.shape.x = self.pos.x
         self.shape.y = self.pos.y
+        
+    def respawn(self, x_checkpoint, y_checkpoint):
+        self.pos = settings.vec(x_checkpoint, y_checkpoint + 540)
+        # self.shape.center = (x_checkpoint, y_checkpoint)
+        print(f"position respawn: {self.pos}")
