@@ -25,4 +25,4 @@ class Platform:
     
     def draw_hitbox(self, interface):
         # Draw the hitbox of the platform in red
-        pygame.draw.rect(interface, (255, 0, 0), self.rect, 2)
+        pygame.draw.rect(interface, settings.blue, self.rect, 2)

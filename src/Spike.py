@@ -4,13 +4,17 @@ from pygame.locals import *
 from utils import scale_images
 
 class Spike:
-    def __init__(self, x, y):
+    def __init__(self, x, y, widht, height, rotation):
         # textures
         self.asset = pygame.image.load(settings.spike_texture)
-        self.asset = scale_images(self.asset, 2, 2)
+        if rotation > 0:
+            self.asset = pygame.transform.rotate(self.asset, rotation)
+        else:
+            self.asset = pygame.transform.rotate(self.asset, 0)
+        self.asset = scale_images(self.asset, widht, height)
         # dimentions
         self.rect = self.asset.get_rect()
-        self.rect.center = (x, y)           
+        self.rect.center = (x, y)             
     
     # update loop
     def spike_update(self, player, x_checkpoint, y_checkpoint):
@@ -26,4 +30,8 @@ class Spike:
         if self.rect.colliderect(player.shape):            
             player.score = 0
             player.attemps += 1
-            player.respawn(x_checkpoint, y_checkpoint)            
+            player.respawn(x_checkpoint, y_checkpoint)
+    
+    def draw_hitbox(self, interface):
+        # Draw the hitbox of the platform in red
+        pygame.draw.rect(interface, settings.red, self.rect, 2)          
