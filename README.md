@@ -2,6 +2,10 @@
 ---
 A challenging platformer game created with Pygame where players collect coins of different values while avoiding obstacles to reach the top with the fewest attempts and most coins.
 
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/4a4d1ed4-4550-4aca-8d6e-2f2faafe0c16">
+</div>
+
 ## Overview
 
 This project was developed as a final assignment for our Applied Data Structures course. The game is a 2D platformer that demonstrates the practical application of various data structures in game development, including lists, tuples, and object-oriented programming principles.
