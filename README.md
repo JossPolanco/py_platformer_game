@@ -83,7 +83,7 @@ Directory structure:
 
 ## Game Controls
 
-- **Left/Right Arrow Keys**: Move the character
+- **WASD**: Move the character
 - **Spacebar**: Jump
 - **R**: Restart level
 - **ESC**: Pause game
